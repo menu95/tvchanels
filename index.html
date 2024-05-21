@@ -3,32 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Channels</title>
+    <title>My TV Channels</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .channel-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
 </head>
 <body>
     <h1>My TV Channels</h1>
-    <ul id="channelList"></ul>
+    <div class="channel-container">
+        <ul>
+            <li><a href="https://stmv1.srvif.com/loadingtv/loadingtv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Loading TV</a></li>
+            <li><a href="https://stmv1.srvif.com/animetv/animetv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Anime TV</a></li>
+            <li><a href="https://video07.logicahost.com.br/redebrasil/redebrasil/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Rede Brasil</a></li>
+            <li><a href="https://stmv1.srvif.com/retrotv/retrotv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Desenho Retro</a></li>
+            <li><a href="https://stmv1.srvif.com/xtremetv/xtremetv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">TV Extreme</a></li>
+            <li><a href="https://stmv1.conectastreaming.com/hitstv/hitstv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Cinepix Filmes e Séries</a></li>
+            <li><a href="https://www.youtube.com/5b357c82-23de-4fc2-947c-42f957010331" target="_blank" onclick="openFullscreen(this.href)">SBT Rio</a></li>
+            <li><a href="https://stmv1.srvif.com/tvserie/tvserie/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Rede Manchete</a></li>
+            <li><a href="https://stmv1.srvif.com/jetsontv/jetsontv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Os Jetsons 24h</a></li>
+            <li><a href="https://stmv1.srvif.com/otaku/otaku/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Otaku TV</a></li>
+            <li><a href="https://www.dailymotion.com/embed/video/x7wjrui?autoplay=1&queue-enable=false" target="_blank" onclick="openFullscreen(this.href)">Rádio 89</a></li>
+        </ul>
+    </div>
     <script>
-        // URL do arquivo M3U
-        const m3uUrl = 'https://stmv1.srvif.com/animetv/animetv/playlist.m3u8';
-
-        // Função para carregar e exibir os canais
-        async function loadChannels() {
-            const response = await fetch(m3uUrl);
-            const m3uText = await response.text();
-            const channels = m3uText.split('\n').filter(line => line.startsWith('http'));
-            const channelList = document.getElementById('channelList');
-            channels.forEach(channel => {
-                const listItem = document.createElement('li');
-                const link = document.createElement('a');
-                link.href = channel;
-                link.textContent = channel;
-                listItem.appendChild(link);
-                channelList.appendChild(listItem);
-            });
+        function openFullscreen(url) {
+            event.preventDefault();
+            var win = window.open(url, '_blank');
+            win.focus();
+            win.document.write('<html><head><title>Full Screen</title></head><body style="margin:0;"><iframe src="' + url + '" style="border:none; width:100%; height:100%;" allowfullscreen></iframe></body></html>');
+            win.document.close();
         }
-
-        loadChannels();
     </script>
 </body>
 </html>
