@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My TV Channels</title>
+    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,33 +36,45 @@
             align-items: center;
             flex-direction: column;
         }
+        .video-js {
+            width: 100%;
+            height: 60vh;
+        }
     </style>
 </head>
 <body>
     <h1>My TV Channels</h1>
     <div class="channel-container">
         <ul>
-            <li><a href="https://stmv1.srvif.com/loadingtv/loadingtv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Loading TV</a></li>
-            <li><a href="https://stmv1.srvif.com/animetv/animetv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Anime TV</a></li>
-            <li><a href="https://video07.logicahost.com.br/redebrasil/redebrasil/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Rede Brasil</a></li>
-            <li><a href="https://stmv1.srvif.com/retrotv/retrotv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Desenho Retro</a></li>
-            <li><a href="https://stmv1.srvif.com/xtremetv/xtremetv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">TV Extreme</a></li>
-            <li><a href="https://stmv1.conectastreaming.com/hitstv/hitstv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Cinepix Filmes e Séries</a></li>
-            <li><a href="https://www.youtube.com/5b357c82-23de-4fc2-947c-42f957010331" target="_blank" onclick="openFullscreen(this.href)">SBT Rio</a></li>
-            <li><a href="https://stmv1.srvif.com/tvserie/tvserie/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Rede Manchete</a></li>
-            <li><a href="https://stmv1.srvif.com/jetsontv/jetsontv/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Os Jetsons 24h</a></li>
-            <li><a href="https://stmv1.srvif.com/otaku/otaku/playlist.m3u8" target="_blank" onclick="openFullscreen(this.href)">Otaku TV</a></li>
-            <li><a href="https://www.dailymotion.com/embed/video/x7wjrui?autoplay=1&queue-enable=false" target="_blank" onclick="openFullscreen(this.href)">Rádio 89</a></li>
+            <li><a href="#" data-src="https://stmv1.srvif.com/loadingtv/loadingtv/playlist.m3u8">Loading TV</a></li>
+            <li><a href="#" data-src="https://stmv1.srvif.com/animetv/animetv/playlist.m3u8">Anime TV</a></li>
+            <li><a href="#" data-src="https://video07.logicahost.com.br/redebrasil/redebrasil/playlist.m3u8">Rede Brasil</a></li>
+            <li><a href="#" data-src="https://stmv1.srvif.com/retrotv/retrotv/playlist.m3u8">Desenho Retro</a></li>
+            <li><a href="#" data-src="https://stmv1.srvif.com/xtremetv/xtremetv/playlist.m3u8">TV Extreme</a></li>
+            <li><a href="#" data-src="https://stmv1.conectastreaming.com/hitstv/hitstv/playlist.m3u8">Cinepix Filmes e Séries</a></li>
+            <li><a href="#" data-src="https://www.youtube.com/5b357c82-23de-4fc2-947c-42f957010331">SBT Rio</a></li>
+            <li><a href="#" data-src="https://stmv1.srvif.com/tvserie/tvserie/playlist.m3u8">Rede Manchete</a></li>
+            <li><a href="#" data-src="https://stmv1.srvif.com/jetsontv/jetsontv/playlist.m3u8">Os Jetsons 24h</a></li>
+            <li><a href="#" data-src="https://stmv1.srvif.com/otaku/otaku/playlist.m3u8">Otaku TV</a></li>
+            <li><a href="#" data-src="https://www.dailymotion.com/embed/video/x7wjrui?autoplay=1&queue-enable=false">Rádio 89</a></li>
         </ul>
+        <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" data-setup='{}'>
+            <source src="" type="application/x-mpegURL">
+            Your browser does not support the video tag.
+        </video>
     </div>
+    <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
     <script>
-        function openFullscreen(url) {
-            event.preventDefault();
-            var win = window.open(url, '_blank');
-            win.focus();
-            win.document.write('<html><head><title>Full Screen</title></head><body style="margin:0;"><iframe src="' + url + '" style="border:none; width:100%; height:100%;" allowfullscreen></iframe></body></html>');
-            win.document.close();
-        }
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                var videoSrc = this.getAttribute('data-src');
+                var player = videojs('videoPlayer');
+                player.src({ src: videoSrc, type: 'application/x-mpegURL' });
+                player.play();
+                player.requestFullscreen();
+            });
+        });
     </script>
 </body>
 </html>
