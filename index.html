@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Channels</title>
+</head>
+<body>
+    <h1>My TV Channels</h1>
+    <ul id="channelList"></ul>
+    <script>
+        // URL do arquivo M3U
+        const m3uUrl = 'https://raw.githubusercontent.com/USERNAME/REPOSITORY-NAME/BRANCH-NAME/FILE-NAME.m3u';
+
+        // Função para carregar e exibir os canais
+        async function loadChannels() {
+            const response = await fetch(m3uUrl);
+            const m3uText = await response.text();
+            const channels = m3uText.split('\n').filter(line => line.startsWith('http'));
+            const channelList = document.getElementById('channelList');
+            channels.forEach(channel => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = channel;
+                link.textContent = channel;
+                listItem.appendChild(link);
+                channelList.appendChild(listItem);
+            });
+        }
+
+        loadChannels();
+    </script>
+</body>
+</html>
