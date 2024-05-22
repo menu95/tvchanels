@@ -59,7 +59,7 @@
             <li><a href="#" data-src="https://www.dailymotion.com/embed/video/x7wjrui?autoplay=1&queue-enable=false">Rádio 89</a></li>
         </ul>
         <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" data-setup='{}'>
-            <source src="" type="application/x-mpegURL">
+            <source src="https://stmv1.srvif.com/animetv/animetv/playlist.m3u8" type="application/x-mpegURL">
             Your browser does not support the video tag.
         </video>
     </div>
@@ -74,6 +74,32 @@
                 player.play();
                 player.requestFullscreen();
             });
+        });
+
+        var player = videojs('videoPlayer');
+        player.ready(function() {
+            player.play();
+        });
+
+        var hideControlsTimeout;
+        player.on('userinactive', function() {
+            hideControlsTimeout = setTimeout(function() {
+                player.controls(false);
+            }, 2000); // Hide controls after 2 seconds of inactivity
+        });
+
+        player.on('useractive', function() {
+            clearTimeout(hideControlsTimeout);
+            player.controls(true);
+        });
+
+        // Ensure controls are visible on fullscreen change
+        player.on('fullscreenchange', function() {
+            if (player.isFullscreen()) {
+                player.controls(true);
+            } else {
+                player.trigger('userinactive');
+            }
         });
     </script>
 </body>
