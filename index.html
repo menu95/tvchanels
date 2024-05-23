@@ -88,7 +88,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js"></script>
     <script>
         function scrollToVideo() {
-            document.querySelector('.channel-container').scrollIntoView({ behavior: 'smooth' });
+            const videoContainer = document.querySelector('.channel-container');
+            const offset = 50; // Adjust this value as needed to create extra space above the video
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = videoContainer.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition + offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         }
 
         function scrollToTop() {
