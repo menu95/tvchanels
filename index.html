@@ -72,7 +72,7 @@
         <a href="#" data-src="https://stream.ichibantv.com:3764/hybrid/play.m3u8"><img src="logo1.png" alt="Geekdot Logo">Geekdot</a>
         <a href="#" data-src="https://stmv1.srvif.com/loadingtv/loadingtv/playlist.m3u8"><img src="logo2.png" alt="Loading TV Logo">Loading TV</a>
         <a href="#" data-src="https://stmv1.srvif.com/emlsilva/emlsilva/playlist.m3u8"><img src="logo3.png" alt="Fox Kids Logo">Fox Kids</a>
-        <a href="#" data-src="https://tv02.zas.media:1936/wordingtv/wordingtv/playlist.m3u8"><img src="logo4.png" alt="Wording TV Logo">Wording TV</a>
+        <a id="wordingTvButton" href="#" data-src="https://tv02.zas.media:1936/wordingtv/wordingtv/playlist.m3u8"><img src="logo4.png" alt="Wording TV Logo">Wording TV</a>
         <a href="#" data-src="https://stmv1.srvif.com/animetv/animetv/playlist.m3u8"><img src="logo5.png" alt="Anime TV Logo">Anime TV</a>
         <a href="#" data-src="https://video07.logicahost.com.br/redebrasil/redebrasil/playlist.m3u8"><img src="logo6.png" alt="Rede Brasil Logo">Rede Brasil</a>
         <a href="#" data-src="https://stmv1.srvif.com/retrotv/retrotv/playlist.m3u8"><img src="logo7.png" alt="Desenho Retro Logo">Desenho Retro</a>
@@ -97,6 +97,9 @@
 
         function scrollToBottom() {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            setTimeout(function() {
+                document.getElementById('wordingTvButton').focus();
+            }, 500);
         }
 
         function increaseBuffer() {
