@@ -61,7 +61,7 @@
         <div class="button-container">
             <button onclick="reloadWithCurrentChannel()">Reload</button>
             <button id="increaseBufferBtn">Increase Buffer</button>
-            <button onclick="scrollToBottom()">Channels</button>
+            <button onclick="scrollToBottom()">Choose Channels</button>
         </div>
         <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" data-setup='{}'>
             <source src="https://stream.ichibantv.com:3764/hybrid/play.m3u8" type="application/x-mpegURL">
@@ -89,7 +89,7 @@
     <script>
         function scrollToVideo() {
             const videoContainer = document.querySelector('.channel-container');
-            const offset = 46; // Adjust this value as needed to create extra space above the video
+            const offset = 42; // Adjust this value as needed to create extra space above the video
             const bodyRect = document.body.getBoundingClientRect().top;
             const elementRect = videoContainer.getBoundingClientRect().top;
             const elementPosition = elementRect - bodyRect;
