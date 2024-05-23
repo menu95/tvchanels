@@ -148,42 +148,9 @@
             var savedChannel = localStorage.getItem('currentChannel');
             if (savedChannel) {
                 player.src({ src: savedChannel, type: 'application/x-mpegURL' });
-                player.ready(function() {
-                    player.play();
-                });
+                player.play();
             } else {
                 player.play();
-            }
-        });
-
-        player.hls.xhr.beforeRequest = function(options) {
-            options.timeout = 45000; // Set a longer timeout for buffering
-            return options;
-        };
-
-        player.hls.xhrSetup = function(xhr, url) {
-            xhr.withCredentials = false;
-            xhr.timeout = 45000; // Set a longer timeout for buffering
-        };
-
-        var hideControlsTimeout;
-        player.on('userinactive', function() {
-            hideControlsTimeout = setTimeout(function() {
-                player.controls(false);
-            }, 2000); // Hide controls after 2 seconds of inactivity
-        });
-
-        player.on('useractive', function() {
-            clearTimeout(hideControlsTimeout);
-            player.controls(true);
-        });
-
-        // Ensure controls are visible on fullscreen change
-        player.on('fullscreenchange', function() {
-            if (player.isFullscreen()) {
-                player.controls(true);
-            } else {
-                player.trigger('userinactive');
             }
         });
 
@@ -191,7 +158,6 @@
             increaseBuffer();
         });
 
-        // Ensure video plays automatically after reload
         window.addEventListener('load', function() {
             var player = videojs('videoPlayer');
             player.ready(function() {
