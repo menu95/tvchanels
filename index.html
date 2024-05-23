@@ -47,6 +47,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-bottom: 20px; /* Add margin to create space */
         }
         .video-js {
             width: 110%;
@@ -56,6 +57,17 @@
 </head>
 <body>
     <h1>My TV Channels</h1>
+    <div class="channel-container">
+        <div class="button-container">
+            <button onclick="scrollToBottom()">Channels</button>
+            <button onclick="reloadWithCurrentChannel()">Reload</button>
+            <button id="increaseBufferBtn">Increase Buffer</button>
+        </div>
+        <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" data-setup='{}'>
+            <source src="https://stream.ichibantv.com:3764/hybrid/play.m3u8" type="application/x-mpegURL">
+            Your browser does not support the video tag.
+        </video>
+    </div>
     <div class="button-container">
         <a href="#" data-src="https://stream.ichibantv.com:3764/hybrid/play.m3u8"><img src="logo1.png" alt="Geekdot Logo">Geekdot</a>
         <a href="#" data-src="https://stmv1.srvif.com/loadingtv/loadingtv/playlist.m3u8"><img src="logo2.png" alt="Loading TV Logo">Loading TV</a>
@@ -72,17 +84,6 @@
         <a href="#" data-src="https://stmv1.srvif.com/otaku/otaku/playlist.m3u8"><img src="logo13.png" alt="Otaku TV Logo">Otaku TV</a>
         <a href="#" data-src="https://www.dailymotion.com/embed/video/x7wjrui?autoplay=1&queue-enable=false"><img src="logo14.png" alt="Rádio 89 Logo">Rádio 89</a>
     </div>
-    <div class="channel-container">
-        <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" data-setup='{}'>
-            <source src="https://stream.ichibantv.com:3764/hybrid/play.m3u8" type="application/x-mpegURL">
-            Your browser does not support the video tag.
-        </video>
-        <div class="button-container">
-            <button onclick="reloadWithCurrentChannel()">Reload</button>
-            <button id="increaseBufferBtn">Increase Buffer</button>
-            <button onclick="scrollToTop()">Channels</button>
-        </div>
-    </div>
     <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js"></script>
     <script>
@@ -92,6 +93,10 @@
 
         function scrollToTop() {
             document.querySelector('h1').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToBottom() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
 
         function increaseBuffer() {
@@ -181,6 +186,14 @@
 
         document.getElementById('increaseBufferBtn').addEventListener('click', function() {
             increaseBuffer();
+        });
+
+        // Ensure video plays automatically after reload
+        window.addEventListener('load', function() {
+            var player = videojs('videoPlayer');
+            player.ready(function() {
+                player.play();
+            });
         });
     </script>
 </body>
