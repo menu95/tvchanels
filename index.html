@@ -170,13 +170,13 @@
         });
 
         player.hls.xhr.beforeRequest = function(options) {
-            options.timeout = 45000; // Set a longer timeout for buffering
+            options.timeout = 50000; // Set a longer timeout for buffering
             return options;
         };
 
         player.hls.xhrSetup = function(xhr, url) {
             xhr.withCredentials = false;
-            xhr.timeout = 45000; // Set a longer timeout for buffering
+            xhr.timeout = 50000; // Set a longer timeout for buffering
         };
 
         var hideControlsTimeout;
