@@ -53,29 +53,6 @@
             width: 110%;
             height: 100vh;
         }
-        .loading-progress {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 18px;
-            display: none;
-        }
-        .progress-bar {
-            width: 100px;
-            height: 10px;
-            background-color: #ccc;
-            border-radius: 5px;
-            overflow: hidden;
-            display: none;
-            margin: 20px auto;
-        }
-        .progress-bar div {
-            height: 100%;
-            background-color: #007BFF;
-            width: 0;
-        }
     </style>
 </head>
 <body>
@@ -86,8 +63,6 @@
             <button onclick="reloadWithCurrentChannel()">Recarregar</button>
             <button id="increaseBufferBtn">Aumentar Buffer</button>
         </div>
-        <div class="loading-progress" id="loadingProgress">Carregando: <span id="progressPercentage">0%</span></div>
-        <div class="progress-bar" id="progressBar"><div></div></div>
         <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" data-setup='{}'>
             <source src="https://stream.ichibantv.com:3764/hybrid/play.m3u8" type="application/x-mpegURL">
             Your browser does not support the video tag.
@@ -98,10 +73,10 @@
         <a href="#" data-src="https://stream.ichibantv.com:3764/hybrid/play.m3u8"><img src="logo1.png" alt="Geekdot Logo">Geekdot</a>
         <a href="#" data-src="https://stmv1.srvif.com/loadingtv/loadingtv/playlist.m3u8"><img src="logo2.png" alt="Loading TV Logo">Loading TV</a>
         <a href="#" data-src="https://stmv1.srvif.com/emlsilva/emlsilva/playlist.m3u8"><img src="logo3.png" alt="Fox Kids Logo">Fox Kids</a>
-        <a href="#" data-src="https://tv02.zas.media:1936/wordingtv/wordingtv/playlist.m3u8"><img src="logo4.png" alt="Wording TV Logo">Wording TV</a>
+        <a id="wordingTvButton" href="#" data-src="https://tv02.zas.media:1936/wordingtv/wordingtv/playlist.m3u8"><img src="logo4.png" alt="Wording TV Logo">Wording TV</a>
         <a href="#" data-src="https://stmv1.srvif.com/animetv/animetv/playlist.m3u8"><img src="logo5.png" alt="Anime TV Logo">Anime TV</a>
         <a href="#" data-src="https://video07.logicahost.com.br/redebrasil/redebrasil/playlist.m3u8"><img src="logo6.png" alt="Rede Brasil Logo">Rede Brasil</a>
-        <a href="#" data-src="https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/62545c0b002f4b0007688b61/master.m3u8?advertisingId={PSID}&appVersion=unknown&deviceDNT={TARGETOPT}&deviceId={PSID}&deviceLat=0&deviceLon=0&deviceMake=samsung&deviceModel=samsung&deviceType=samsung-tvplus&deviceVersion=unknown"><img src="logo6.png" alt="Rede Brasil Logo">Bob esponja</a>
+        <a href="#" data-src="https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/62545c0b002f4b0007688b61/master.m3u8?advertisingId={PSID}&appVersion=unknown&deviceDNT={TARGETOPT}&deviceId={PSID}&deviceLat=0&deviceLon=0&deviceMake=samsung&deviceModel=samsung&deviceType=samsung-tvplus&deviceVersion=unknown"><img src="logo6.png" alt="Bob esponja Logo">Bob esponja</a>
         <a href="#" data-src="https://service-stitcher.clusters.pluto.tv/v1/stitch/embed/hls/channel/63221e41af69b500076f84e7/master.m3u8?deviceId=channel&deviceModel=web&deviceVersion=1.0&appVersion=1.0&deviceType=rokuChannel&deviceMake=rokuChannel&deviceDNT=18"><img src="logo6.png" alt="Os Padrinhos magicos Logo">Os Padrinhos magicos</a>
         <a href="#" data-src="https://stmv1.srvif.com/retrotv/retrotv/playlist.m3u8"><img src="logo7.png" alt="Desenho Retro Logo">Desenho Retro</a>
         <a href="#" data-src="https://stmv1.srvif.com/xtremetv/xtremetv/playlist.m3u8"><img src="logo8.png" alt="TV Extreme Logo">TV Extreme</a>
@@ -111,7 +86,7 @@
         <a href="#" data-src="https://stmv1.srvif.com/jetsontv/jetsontv/playlist.m3u8"><img src="logo12.png" alt="Os Jetsons 24h Logo">Os Jetsons 24h</a>
         <a href="#" data-src="https://stmv1.srvif.com/otaku/otaku/playlist.m3u8"><img src="logo13.png" alt="Otaku TV Logo">Otaku TV</a>
         <a href="#" data-src="https://www.dailymotion.com/embed/video/x7wjrui?autoplay=1&queue-enable=false"><img src="logo14.png" alt="Rádio 89 Logo">Rádio 89</a>
-       </div>
+    </div>
     <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js"></script>
     <script>
@@ -195,13 +170,13 @@
         });
 
         player.hls.xhr.beforeRequest = function(options) {
-            options.timeout = 90000; // Set a longer timeout for buffering
+            options.timeout = 45000; // Set a longer timeout for buffering
             return options;
         };
 
         player.hls.xhrSetup = function(xhr, url) {
             xhr.withCredentials = false;
-            xhr.timeout = 90000; // Set a longer timeout for buffering
+            xhr.timeout = 45000; // Set a longer timeout for buffering
         };
 
         var hideControlsTimeout;
@@ -227,39 +202,6 @@
 
         document.getElementById('increaseBufferBtn').addEventListener('click', function() {
             increaseBuffer();
-        });
-
-        // Progress bar and percentage logic
-        function updateLoadingProgress() {
-            const buffered = player.buffered();
-            const duration = player.duration();
-            if (buffered.length) {
-                const end = buffered.end(buffered.length - 1);
-                const percentage = Math.min((end / duration) * 100, 100).toFixed(2);
-                document.getElementById('progressPercentage').innerText = `${percentage}%`;
-                document.getElementById('progressBar').style.display = 'block';
-                document.getElementById('loadingProgress').style.display = 'block';
-                document.querySelector('.progress-bar div').style.width = `${percentage}%`;
-            }
-        }
-
-        player.on('waiting', function() {
-            document.getElementById('progressBar').style.display = 'block';
-            document.getElementById('loadingProgress').style.display = 'block';
-            updateLoadingProgress();
-        });
-
-        player.on('timeupdate', function() {
-            updateLoadingProgress();
-        });
-
-        player.on('progress', function() {
-            updateLoadingProgress();
-        });
-
-        player.on('playing', function() {
-            document.getElementById('progressBar').style.display = 'none';
-            document.getElementById('loadingProgress').style.display = 'none';
         });
 
         window.addEventListener('load', function() {
